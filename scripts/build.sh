@@ -22,8 +22,8 @@ cp Resources/tw.momo.MoMoFan.helper.plist "$APP_DIR/Contents/Library/LaunchDaemo
 swift scripts/make-icon.swift "$BUILD_DIR/AppIcon.iconset"
 iconutil -c icns "$BUILD_DIR/AppIcon.iconset" -o "$APP_DIR/Contents/Resources/AppIcon.icns"
 xattr -cr "$APP_DIR"
-codesign --force --options runtime --timestamp=none --sign "$SIGNING_IDENTITY" --identifier tw.momo.MoMoFan.helper "$APP_DIR/Contents/MacOS/MoMoFanHelper"
-codesign --force --options runtime --timestamp=none --sign "$SIGNING_IDENTITY" --identifier tw.momo.MoMoFan "$APP_DIR"
+codesign --force --options runtime --timestamp --sign "$SIGNING_IDENTITY" --identifier tw.momo.MoMoFan.helper "$APP_DIR/Contents/MacOS/MoMoFanHelper"
+codesign --force --options runtime --timestamp --sign "$SIGNING_IDENTITY" --identifier tw.momo.MoMoFan "$APP_DIR"
 codesign --verify --deep --strict --verbose=2 "$APP_DIR"
 mkdir -p "$OUTPUT_DIR"
 # Keep the signed bundle in a ZIP when delivering into iCloud/File Provider folders.

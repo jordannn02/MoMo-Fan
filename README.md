@@ -2,7 +2,7 @@
 
 原生 macOS 風扇與溫度工具，以 Swift / SwiftUI 開發。提供選單列監測、固定轉速、感測器溫控及本機預設檔，沒有訂閱或付費功能鎖。
 
-[下載 v1.0.3](https://github.com/jordannn02/MoMo-Fan/releases/tag/v1.0.3) · [驗證範圍](docs/VERIFICATION.md) · [第三方聲明](THIRD_PARTY_NOTICES.md)
+[下載 v1.0.4](https://github.com/jordannn02/MoMo-Fan/releases/tag/v1.0.4) · [驗證範圍](docs/VERIFICATION.md) · [第三方聲明](THIRD_PARTY_NOTICES.md)
 
 ![預設檔編輯區（實際畫面裁切）](docs/presets.png)
 
@@ -26,13 +26,13 @@
 
 ## 安裝與使用
 
-1. 從 [Releases](https://github.com/jordannn02/MoMo-Fan/releases) 下載 `MoMo-Fan-1.0.3-macOS-arm64.zip`，解壓縮後將 `MoMo Fan.app` 移到「應用程式」。
+1. 從 [Releases](https://github.com/jordannn02/MoMo-Fan/releases) 下載 `MoMo-Fan-1.0.4-macOS-arm64.zip`，解壓縮後將 `MoMo Fan.app` 移到「應用程式」。
 2. 開啟後即可監測；要調整轉速，按「啟用風扇控制」，依 macOS 提示允許 MoMo Fan 背景服務。需要驗證時，直接在系統視窗輸入管理員密碼。
 3. 在「預設檔」輸入各顆風扇的 RPM，按「儲存」。名稱可以留空，程式會依轉速命名。
 4. 按已存組合的「套用」才會變更硬體；要修改組合，按「修改」。總覽頁亦可設定溫控及保存進階組合。
 5. 按「系統自動」可釋放控制。關閉視窗仍保留選單列；結束程式則釋放它取得的控制權。
 
-發行包具有 Developer ID 簽章，**尚未經 Apple 公證**，下載後可能被 Gatekeeper 阻擋。背景服務授權與 Gatekeeper 是不同機制。
+**v1.0.4 發行包已完成 Apple 公證並附加公證票據**，通過 Gatekeeper 與 macOS 發行前檢查。首次開啟仍可能顯示一般的網路下載確認；啟用風扇控制另需核准背景服務。
 
 ## 保護與背景效率
 
@@ -53,7 +53,9 @@ env TMPDIR=/tmp swift test --scratch-path /tmp/MoMoFan-Tests
 env TMPDIR=/tmp bash scripts/build.sh /tmp/MoMoFan-release
 ```
 
-`build.sh` 使用 Developer ID 簽署 App 和 helper。預設身分為此發行版本的簽署者；若自行編譯，需將 `MOMOFAN_SIGNING_IDENTITY` 設為自己的簽署身分，並將 `Sources/FanCore/Models.swift` 中的 team ID 改成相同團隊，否則雙向 XPC 驗證會拒絕連線。原始碼不包含簽章私鑰或憑證私密資料。
+`build.sh` 使用 Developer ID 與 Apple 安全時間戳簽署 App 和 helper。預設身分為此發行版本的簽署者；若自行編譯，需將 `MOMOFAN_SIGNING_IDENTITY` 設為自己的簽署身分，並將 `Sources/FanCore/Models.swift` 中的 team ID 改成相同團隊，否則雙向 XPC 驗證會拒絕連線。原始碼不包含簽章私鑰或憑證私密資料。
+
+自行建置只完成簽署，不會自動取得公證；要公開散布，仍需用自己的 Apple 開發者登入設定提交 `notarytool`，等待 `Accepted` 後對 App 執行 `stapler staple`，再重新打包。
 
 `--diagnose` 是唯讀感測器 JSON，`--verify-helper` 是唯讀服務狀態。其他 `--verify-*` 硬體驗收參數可能短暫改動轉速，不屬於一般使用流程。
 

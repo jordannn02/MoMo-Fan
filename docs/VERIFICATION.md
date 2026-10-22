@@ -2,6 +2,18 @@
 
 驗證日期：2026-10-22。目標硬體：Mac17,8 / Apple M5 Pro；系統：macOS 27.0.1。
 
+## v1.0.4（build 7）— Apple 公證
+
+- 此版僅更新版本資訊及發行簽章：App 與 helper 都啟用 hardened runtime 並附加 Apple 安全時間戳；控制與預設檔程式碼與 v1.0.3 相同。
+- Apple 公證狀態：`Accepted`，submission ID：`4a6c3092-7a27-4347-b0c8-afb95135c558`；公證 log 無 issues。
+- 已將公證票據 staple 到 App，再重新打包最終 ZIP；對新目錄解出的 App 執行 `stapler validate` 通過。
+- `codesign --verify --deep --strict` 通過。
+- `spctl --assess --type execute` 回報 `accepted`、`source=Notarized Developer ID`。
+- `syspolicy_check distribution` 的簽章、公證、XProtect 與 Gatekeeper 檢查均通過。
+- 最終安裝包 SHA-256：`27e46099f92d81a021aadfe16d5acd4b865e39cef2a5801f9942d5ab4f76c8d2`。
+
+公證驗證發行完整性與 macOS 安全政策；它不代表新增機型已通過風扇硬體測試，也不代替使用者核准背景服務。既有功能驗收範圍與限制如下。
+
 ## v1.0.3（build 6）
 
 - Release 建置及 deep/strict 簽章驗證通過；既有 58 項核心與故障注入測試通過，0 失敗。
