@@ -2,7 +2,7 @@
 
 原生 macOS 風扇與溫度工具，以 Swift / SwiftUI 開發。提供選單列監測、固定轉速、感測器溫控及本機預設檔，沒有訂閱或付費功能鎖。
 
-[下載 v1.0.4](https://github.com/jordannn02/MoMo-Fan/releases/tag/v1.0.4) · [驗證範圍](docs/VERIFICATION.md) · [第三方聲明](THIRD_PARTY_NOTICES.md)
+[下載 v1.0.5](https://github.com/jordannn02/MoMo-Fan/releases/tag/v1.0.5) · [驗證範圍](docs/VERIFICATION.md) · [第三方聲明](THIRD_PARTY_NOTICES.md)
 
 ![預設檔編輯區（實際畫面裁切）](docs/presets.png)
 
@@ -12,6 +12,7 @@
 - CPU、GPU、電池、SSD、氣流與 Wi-Fi 溫度；目前感測器表針對 Apple M5 Pro 驗證。
 - 每顆風扇可選系統自動、固定 RPM，或依感測器溫度線性調速。
 - 直接輸入兩顆風扇的常用 RPM 並儲存；名稱選填，可修改並在重開後保留。按「套用」才改變實際轉速。
+- 總覽的「⋯」選單可直接選取已儲存的預設檔，顯示各顆風扇轉速，並以勾號標示目前使用的組合。
 - 選單列可只顯示圖示，也可顯示溫度、RPM 或兩者。
 - 攝氏／華氏、約六分鐘溫度走勢、登入時啟動與診斷匯出。
 - App 失聯、心跳逾時及睡眠通知時，背景服務要求回復系統自動。
@@ -20,19 +21,19 @@
 
 ## 相容性
 
-**目前實機驗證：Mac17,8 / Apple M5 Pro / macOS 27.0.1。** 發行安裝包為 Apple Silicon arm64；套件最低部署目標是 macOS 14，但這不代表其他系統或機型已通過實測。
+**實測機型：Mac17,8 / Apple M5 Pro。** v1.0.3 的控制驗收使用 macOS 27.0.1；v1.0.5 的總覽預設切換在 macOS 27.2 驗證，詳細範圍見[驗證紀錄](docs/VERIFICATION.md)。發行安裝包為 Apple Silicon arm64；套件最低部署目標是 macOS 14，但這不代表其他系統或機型已通過實測。
 
 目前沒有宣稱支援所有 Mac。Intel、Boot Camp、其他 M 系列感測器表及外接硬碟 SMART 不在已驗證範圍。硬體編號顯示為「風扇 1／風扇 2」，不代表已確認的實體左右位置。
 
 ## 安裝與使用
 
-1. 從 [Releases](https://github.com/jordannn02/MoMo-Fan/releases) 下載 `MoMo-Fan-1.0.4-macOS-arm64.zip`，解壓縮後將 `MoMo Fan.app` 移到「應用程式」。
+1. 從 [Releases](https://github.com/jordannn02/MoMo-Fan/releases) 下載 `MoMo-Fan-1.0.5-macOS-arm64.zip`，解壓縮後將 `MoMo Fan.app` 移到「應用程式」。
 2. 開啟後即可監測；要調整轉速，按「啟用風扇控制」，依 macOS 提示允許 MoMo Fan 背景服務。需要驗證時，直接在系統視窗輸入管理員密碼。
 3. 在「預設檔」輸入各顆風扇的 RPM，按「儲存」。名稱可以留空，程式會依轉速命名。
-4. 按已存組合的「套用」才會變更硬體；要修改組合，按「修改」。總覽頁亦可設定溫控及保存進階組合。
+4. 按已存組合的「套用」，或在總覽「⋯」選單直接選取預設檔，即會套用轉速。要修改組合，按「修改」。總覽頁亦可設定溫控及保存進階組合。
 5. 按「系統自動」可釋放控制。關閉視窗仍保留選單列；結束程式則釋放它取得的控制權。
 
-**v1.0.4 發行包已完成 Apple 公證並附加公證票據**，通過 Gatekeeper 與 macOS 發行前檢查。首次開啟仍可能顯示一般的網路下載確認；啟用風扇控制另需核准背景服務。
+**v1.0.5 發行包已完成 Apple 公證並附加公證票據**，通過簽章、公證票據與 Gatekeeper 檢查。首次開啟仍可能顯示一般的網路下載確認；啟用風扇控制另需核准背景服務。
 
 ## 保護與背景效率
 

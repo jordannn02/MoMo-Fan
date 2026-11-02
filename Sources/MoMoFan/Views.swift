@@ -161,6 +161,18 @@ struct DashboardView: View {
                 Menu {
                     Button("回復系統自動", systemImage: "arrow.counterclockwise") { model.setAllAutomatic() }
                     Button("全速散熱", systemImage: "wind") { model.setMaximum() }
+                    Divider()
+                    if model.presets.isEmpty {
+                        Button("尚無已儲存的預設檔") {}.disabled(true)
+                    } else {
+                        ForEach(model.presets) { preset in
+                            Button {
+                                model.applyPreset(preset)
+                            } label: {
+                                Label("\(preset.name) · \(presetSummary(preset))", systemImage: model.isPresetActive(preset) ? "checkmark" : "slider.horizontal.3")
+                            }
+                        }
+                    }
                 } label: {
                     Image(systemName: "ellipsis.circle")
                         .font(.system(size: 17))
@@ -168,6 +180,7 @@ struct DashboardView: View {
                 .menuStyle(.borderlessButton)
                 .fixedSize()
                 .disabled(!model.helperReady || model.isBusy)
+                .accessibilityLabel("快速調整所有風扇")
                 .help("快速調整所有風扇")
             }
 
@@ -385,15 +398,7 @@ struct DashboardView: View {
                         StatusPill(text: "目前使用", symbol: "checkmark", color: .teal)
                     }
                 }
-                Text(preset.rules.map { rule in
-                    let name = model.snapshot?.fans.first(where: { $0.id == rule.fanID })?.name ?? "風扇 \(rule.fanID + 1)"
-                    switch rule.mode {
-                    case .automatic: return "\(name)：系統自動"
-                    case .fixed: return "\(name)：\(rule.rpm.formatted(.number.precision(.fractionLength(0)))) RPM"
-                    case .sensor:
-                        return "\(name)：\(rule.sensorKey) · \(model.temperature(rule.lowerTemperature))–\(model.temperature(rule.upperTemperature))"
-                    }
-                }.joined(separator: "　·　"))
+                Text(presetSummary(preset))
                     .font(.caption).foregroundStyle(.secondary)
             }
             Spacer(minLength: 10)
@@ -416,6 +421,18 @@ struct DashboardView: View {
         }
         .padding(18)
         .panel()
+    }
+
+    private func presetSummary(_ preset: FanPreset) -> String {
+        preset.rules.map { rule in
+            let name = model.snapshot?.fans.first(where: { $0.id == rule.fanID })?.name ?? "風扇 \(rule.fanID + 1)"
+            switch rule.mode {
+            case .automatic: return "\(name)：系統自動"
+            case .fixed: return "\(name)：\(rule.rpm.formatted(.number.precision(.fractionLength(0)))) RPM"
+            case .sensor:
+                return "\(name)：\(rule.sensorKey) · \(model.temperature(rule.lowerTemperature))–\(model.temperature(rule.upperTemperature))"
+            }
+        }.joined(separator: "　·　")
     }
 
     private var settings: some View {
